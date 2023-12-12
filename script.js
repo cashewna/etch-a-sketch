@@ -5,7 +5,7 @@ const GRID_SIZE = 16;
  * @param {int} rows 
  * @param {int} cols 
  */
-function create_grid(rows, cols) {
+function initialise_grid(rows, cols) {
     const canvas = document.querySelector('.canvas');
     for (let i = 0; i < rows; i++) {
         const row = document.createElement('div');
@@ -19,15 +19,22 @@ function create_grid(rows, cols) {
     }
 }
 
-/** Main */
-create_grid(GRID_SIZE, GRID_SIZE);
-const cells = document.querySelectorAll('.cell');
-for (let i = 0; i < cells.length; i++) {
-    cells[i].addEventListener("mouseover", (event) => {
-        event.target.classList.add('hover');
-    });
-    
-    cells[i].addEventListener("mouseout", (event) => {
-        event.target.classList.remove('hover');
-    });
+/**
+ * Highlights a cell when the mouse hovers over it.
+ */
+function highlight_cells_on_hover() {
+    const cells = document.querySelectorAll('.cell');
+    for (let i = 0; i < cells.length; i++) {
+        cells[i].addEventListener("mouseover", (event) => {
+            event.target.classList.add('hover');
+        });
+
+        cells[i].addEventListener("mouseout", (event) => {
+            event.target.classList.remove('hover');
+        });
+    }
 }
+
+/** Main */
+initialise_grid(GRID_SIZE, GRID_SIZE);
+highlight_cells_on_hover();
