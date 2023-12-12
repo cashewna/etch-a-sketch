@@ -1,4 +1,4 @@
-const GRID_SIZE = 16;
+let GRID_SIZE = 16;
 
 /**
  * Removes all children of a given node.
@@ -52,6 +52,7 @@ function initialise_cell_effects() {
         cells[i].addEventListener("mouseover", (event) => {
             event.target.classList.add('hover');
 
+            /** Progressively darken squares on mouseDown */
             if (mouseDown) {
                 let currentColor = event.target.style.backgroundColor;
                 let match = /rgba?\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)/.exec(currentColor);
@@ -82,12 +83,26 @@ function resize_grid() {
         if (newGridSize > 1 || newGridSize < 100) {
             initialise_grid(newGridSize, newGridSize);
             initialise_cell_effects();
+            GRID_SIZE = newGridSize;
         } else {
             alert("Please enter a number between 1 and 100.");
         }
     });
 }
 
+function clear_grid() {
+    const cells = document.querySelectorAll('.cell');
+    for (let i = 0; i < cells.length; i++) {
+        cells[i].style.backgroundColor = "rgb(255, 255, 255)";
+    }
+    initialise_grid(GRID_SIZE, GRID_SIZE);
+    initialise_cell_effects();
+}
+
+const clearButton = document.querySelector('#clear');
+clearButton.addEventListener("click", (_event) => {
+    clear_grid();
+});
 /** Main */
 initialise_grid(GRID_SIZE, GRID_SIZE);
 initialise_cell_effects();
