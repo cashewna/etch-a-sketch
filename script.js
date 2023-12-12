@@ -19,4 +19,15 @@ function create_grid(rows, cols) {
     }
 }
 
+/** Main */
 create_grid(GRID_SIZE, GRID_SIZE);
+const cells = document.querySelectorAll('.cell');
+for (let i = 0; i < cells.length; i++) {
+    cells[i].addEventListener("mouseover", (event) => {
+        event.target.classList.add('hover');
+    });
+    
+    cells[i].addEventListener("mouseout", (event) => {
+        event.target.classList.remove('hover');
+    });
+}
