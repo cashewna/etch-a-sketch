@@ -31,14 +31,36 @@ function initialise_grid(rows, cols) {
     }
 }
 
+let mouseDown = 0;
+document.body.onmousedown = () => {
+    mouseDown = 1;
+}
+
+document.body.onmouseup = () => {
+    mouseDown = 0;
+}
+
 /**
- * Highlights a cell when the mouse hovers over it.
+ * Add effects to a cell:
+ *   - highlight a cell onhover
+ *   - change a cell's color on click
  */
-function highlight_cells_on_hover() {
+function initialise_cell_effects() {
     const cells = document.querySelectorAll('.cell');
+    
     for (let i = 0; i < cells.length; i++) {
         cells[i].addEventListener("mouseover", (event) => {
             event.target.classList.add('hover');
+
+            if (mouseDown) {
+                let currentColor = event.target.style.backgroundColor;
+                let match = /rgba?\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)/.exec(currentColor);
+                let red = match ? Math.max(0, match[1] - 25) : 200;
+                let green = match ? Math.max(0, match[2] - 25) : 200;
+                let blue = match ? Math.max(0, match[3] - 25) : 200;
+                event.target.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+
+            }
         });
 
         cells[i].addEventListener("mouseout", (event) => {
@@ -59,7 +81,7 @@ function resize_grid() {
         let newGridSize = parseInt(result);
         if (newGridSize > 1 || newGridSize < 100) {
             initialise_grid(newGridSize, newGridSize);
-            highlight_cells_on_hover();
+            initialise_cell_effects();
         } else {
             alert("Please enter a number between 1 and 100.");
         }
@@ -68,5 +90,5 @@ function resize_grid() {
 
 /** Main */
 initialise_grid(GRID_SIZE, GRID_SIZE);
-highlight_cells_on_hover();
+initialise_cell_effects();
 resize_grid();
